@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
-import usePrevious from './usePrevious';
+import { View, TextInput, Text, StyleSheet } from 'react-native';
 
-export default function App() {
+function usePrevious(value) {
+    const ref = useRef();
+  
+    useEffect(() => {
+      ref.current = value;
+    }, [value]);
+  
+    return ref.current;
+  }
+
+const TextInputWithPrevious = () => {
   const [text, setText] = useState('');
   const previousText = usePrevious(text);
 
@@ -18,25 +27,24 @@ export default function App() {
       <Text style={styles.text}>Попереднє значення: {previousText}</Text>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     padding: 16,
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: '#000',
     borderWidth: 1,
-    width: '100%',
-    marginBottom: 20,
-    paddingHorizontal: 10,
+    marginBottom: 16,
+    paddingHorizontal: 8,
   },
   text: {
-    fontSize: 18,
-    marginVertical: 5,
+    fontSize: 16,
   },
 });
+
+export default TextInputWithPrevious;
